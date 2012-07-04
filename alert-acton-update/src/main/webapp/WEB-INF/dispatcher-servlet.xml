@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2012 FZI-HIWI
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://activemq.apache.org/schema/core
+ 	    http://activemq.apache.org/schema/core/activemq-core-5.5.0.xsd
+		http://www.springframework.org/schema/jms 
+		http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans">
+
+ 	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+ 
+	 <bean id="rssViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+  <property name="order" value="0"></property>
+ 
+</bean>
+
+<bean id="rssViewer" class="de.fzi.ALERT.actor.SubscriptionEditor.Form.RssViewer" />
+	
+	<util:properties id="AnnounceProperties"
+		location="classpath:AnnouncementConfiguration.properties"/>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="/WEB-INF/jdbc.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
+		p:url="${jdbc.databaseurl}" p:username="${jdbc.username}" p:password="${jdbc.password}" />
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!-- <prop key="hibernate.show_sql">true</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+
+	<!-- Define the package name of the Controller  -->
+	<context:component-scan base-package="de.fzi.ALERT.actor.SubscriptionEditor.Controller" />
+	<tx:annotation-driven />
+
+	<bean id="userLoginService" class="de.fzi.ALERT.actor.SubscriptionEditor.Service.UserLoginServiceImpl" />
+	
+	<bean id="messageListService" class="de.fzi.ALERT.actor.ActionActuator.MessageListServiceImpl" />
+	
+	<bean id="patternListService" class="de.fzi.ALERT.actor.SubscriptionEditor.Service.PatternListServiceImpl" />	
+	
+	<bean id="ActionService" class="de.fzi.ALERT.actor.SubscriptionController.SubscriptionControllServiceImpl" />
+	
+	<bean id="patternDAO" class="de.fzi.ALERT.actor.Dao.PatternDAO" />
+	
+	<bean id="messageDAO" class="de.fzi.ALERT.actor.Dao.MessageDAO" />
+	
+	<bean id="userDAO" class="de.fzi.ALERT.actor.Dao.UserDAO" />
+	
+	<bean id="subscriptionDAO" class="de.fzi.ALERT.actor.Dao.SubscriptionDAO" />
+	
+	<bean id="actionTypeDAO" class="de.fzi.ALERT.actor.Dao.ActionTypeDAO" />
+	
+	<bean id="jmsMessageParser" class="de.fzi.ALERT.actor.MessageObserver.ComplexEventObserver.JMSMessageParser" />
+	
+	<bean id="jmsPatternParser" class="de.fzi.ALERT.actor.MessageObserver.PatternObserver.JMSPatternParser" />
+	
+	<bean id="jmsNotificationParser" class="de.fzi.ALERT.actor.MessageObserver.NotificationObserver.JMSNotificationParser" />
+	
+	<bean id="jmsMessageManager" class="de.fzi.ALERT.actor.SubscriptionController.JMSMessageManager"/>
+	
+	<bean id="applicationListener" class="de.fzi.ALERT.actor.ActionActuator.ServiceApplicationListener"/>
+	
+	<bean id="asychMailThreadService" class="de.fzi.ALERT.actor.ActionActuator.AsychMailThreadService"/>
+	
+	<!-- context:component-scan base-package="service" / -->
+	
+	<!--  Embedded ActiveMQ Broker -->
+    <!-- amq:broker id="broker" useJmx="false" persistent="false">
+        <amq:transportConnectors>
+            <amq:transportConnector uri="tcp://localhost:61616" />
+        </amq:transportConnectors>
+    </amq:broker -->
+
+    <!--  ActiveMQ Destination  -->
+    <!-- amq:queue id="destination" physicalName="alert.service" / -->
+
+    <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
+    <!-- amq:connectionFactory id="jmsConnectionFactory" brokerURL="vm://localhost" / -->
+    
+     <!-- JMS Producer Configuration -->
+    <!-- bean id="jmsProducerConnectionFactory" 
+          class="org.springframework.jms.connection.SingleConnectionFactory"
+          depends-on="broker"
+          p:targetConnectionFactory-ref="jmsConnectionFactory" />
+
+    <bean id="jmsProducerTemplate" class="org.springframework.jms.core.JmsTemplate"
+          p:connectionFactory-ref="jmsProducerConnectionFactory"
+          p:defaultDestination-ref="destination" / -->
+    
+    <!-- JMS Consumer Configuration -->
+    <!-- bean id="jmsConsumerConnectionFactory" 
+          class="org.springframework.jms.connection.SingleConnectionFactory"
+          depends-on="broker"
+          p:targetConnectionFactory-ref="jmsConnectionFactory" />
+        
+    <jms:listener-container container-type="default" 
+                            connection-factory="jmsConsumerConnectionFactory"
+                            acknowledge="auto">
+        <jms:listener destination="service" ref="JMSMessageListener" />
+    </jms:listener-container -->
+    
+    <!-- amq:broker persistent="false" useJmx="false">    
+    	<amq:transportConnectors>      
+    		<amq:transportConnector uri="tcp://localhost:0" />    
+    	</amq:transportConnectors>  
+    </amq:broker>   
+    
+    <amq:connectionFactory id="jmsConnectionFactory" brokerURL="vm://localhost" />  
+    
+    <amq:topic id="myTopic" physicalName="myTopic" />   
+    
+    <jms:listener-container connection-factory="jmsConnectionFactory" destination-type="topic" >    
+    	<jms:listener destination="myTopic" ref="JMSMessageListener" />    
+    </jms:listener-container>   
+    
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">   
+    	<property name="connectionFactory" ref="jmsConnectionFactory" />    
+    	<property name="defaultDestination" ref="myTopic" />  
+    </bean -->
+    
+    <!-- A JMS connection factory for ActiveMQ --> 
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" 
+		p:brokerURL="tcp://localhost:61616" />  
+
+	<!-- A POJO that implements the JMS message listener --> 
+	<bean id="simpleMessageListener" class="de.fzi.ALERT.actor.MessageObserver.ComplexEventObserver.JMSMessageListener"/>  
+	
+	<!-- Implements the JMS Pattern listener -->
+	<bean id="simplePatternListener" class="de.fzi.ALERT.actor.MessageObserver.PatternObserver.JMSPatternListener"/>
+
+	<!-- Implements the JMS Notification listener -->
+	<bean id="simpleNotificationListener" class="de.fzi.ALERT.actor.MessageObserver.NotificationObserver.JMSNotificationListener"/>
+
+	<!-- The Spring message listener container configuration --> 
+	<jms:listener-container  container-type="default" connection-factory="connectionFactory" 
+		acknowledge="auto" destination-type="topic">  
+		<jms:listener destination="ALERT.CEP" ref="simpleMessageListener" method="onMessage" />
+		<jms:listener destination="ALERT.Panteon.*" ref="simplePatternListener" method="onMessage" />  
+		<jms:listener destination="ALERT.Recommender.*" ref="simpleNotificationListener" method="onMessage" />  
+		<jms:listener destination="ALERT.CEP.SimilarIssues" ref="simpleNotificationListener" method="onMessage" />  
+	</jms:listener-container>  
+    
+
+</beans>

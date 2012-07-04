@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+	xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+	<soap:Header></soap:Header>
+	<soap:Body>
+		<wsnt:Notify>
+			<wsnt:NotificationMessage>
+				<wsnt:Topic></wsnt:Topic>
+				<wsnt:ProducerReference>
+					<wsa:Address>ETALIS</wsa:Address>
+				</wsnt:ProducerReference>
+				<wsnt:Message>
+					<ns1:event xmlns:ns1="http://www.alert-project.eu/"
+						xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+						xsi:schemaLocation="http://www.alert-project.eu/alert-root.xsd"
+						xmlns:e="http://www.alert-project.eu/ontoevents-mdservice">
+						<patternID>a965F68ECF48A4D14BCC755481FD1E288</patternID>
+						<test29>
+							<patternId>a965F68ECF48A4D14BCC755481FD1E288</patternId>
+							<issueID>184671</issueID>
+							<issueStatus>Resolved</issueStatus>
+							<issueResolution>Fixed</issueResolution>
+							<issuePriority>4</issuePriority>
+							<issueSeverity>Blocker</issueSeverity>
+							<subjectRelated>http://www.alert-project.eu/ontologies/alert_its.owl#Bug1
+							</subjectRelated>
+							<descriptionRelated>http://www.alert-project.eu/ontologies/alert_its.owl#Bug1
+							</descriptionRelated>
+							<issueAuthor>http://www.alert-project.eu/ontologies/alert_scm.owl#Person1
+							</issueAuthor>
+							<assignedTo>http://www.alert-project.eu/ontologies/alert_scm.owl#Person2
+							</assignedTo>
+						</test29>
+					</ns1:event>
+				</wsnt:Message>
+			</wsnt:NotificationMessage>
+		</wsnt:Notify>
+	</soap:Body>
+</soap:Envelope>
+

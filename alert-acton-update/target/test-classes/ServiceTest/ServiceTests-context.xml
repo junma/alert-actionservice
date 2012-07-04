@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2012 FZI-HIWI
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/alert-actordb" p:username="root" p:password="root" />
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<context:component-scan base-package="controller" />
+	<tx:annotation-driven />	
+	
+	<bean id="userLoginService" class="de.fzi.ALERT.actor.SubscriptionEditor.Service.UserLoginServiceImpl" />
+	<bean id="userDAO" class="de.fzi.ALERT.actor.Dao.UserDAO" />
+
+	<bean id="messageListService" class="de.fzi.ALERT.actor.ActionActuator.MessageListServiceImpl" />
+	<bean id="messageDAO" class="de.fzi.ALERT.actor.Dao.MessageDAO" />
+
+	<bean id="patternListService" class="de.fzi.ALERT.actor.SubscriptionEditor.Service.PatternListServiceImpl" />
+	<bean id="patternDAO" class="de.fzi.ALERT.actor.Dao.PatternDAO" />
+
+	<bean id="ActionService" class="de.fzi.ALERT.actor.SubscriptionController.SubscriptionControllServiceImpl" />
+	<bean id="actionDAO" class="de.fzi.ALERT.actor.Dao.SubscriptionDAO" />
+
+	<bean id="actionTypeDAO" class="de.fzi.ALERT.actor.Dao.ActionTypeDAO" />
+
+</beans>
