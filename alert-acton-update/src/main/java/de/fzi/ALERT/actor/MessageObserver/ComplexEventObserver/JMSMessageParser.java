@@ -171,7 +171,8 @@ public class JMSMessageParser {
 						content += nodes1.item(i).getNodeValue();
 					}
 				}
-
+				message.setSubject("complex event");
+				message.setSummary("default summary");
 				message.setContent(content);
 				message.setMsgDate(new Date());
 				message.setMsgID(1);

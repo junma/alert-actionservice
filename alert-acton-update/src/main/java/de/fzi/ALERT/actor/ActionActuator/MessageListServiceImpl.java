@@ -94,6 +94,8 @@ public class MessageListServiceImpl implements MessageListService {
 					messageForm.setPatternName(message.getPatternId()
 							.getPatternName());
 					messageForm.setStatus(true);
+					messageForm.setMessageSubject(message.getSubject());
+					messageForm.setMessageSummary(message.getSummary());
 					unreadedMsgList.add(messageForm);
 				}
 
@@ -127,21 +129,25 @@ public class MessageListServiceImpl implements MessageListService {
 				messageForm.setPatternName(message.getPatternId()
 						.getPatternName());
 				messageForm.setStatus(false);
+				messageForm.setMessageSubject(message.getSubject());
+				messageForm.setMessageSummary(message.getSummary());
 				msgFormList.add(messageForm);
 			}
 		}
 
 		return msgFormList;
 	}
+
 	public List<MessageForm> getAllMsgForPattern(Pattern pattern) {
 		// TODO Auto-generated method stub
-		
-		List<Message> msgList = messageDAO.findByPatternId(pattern.getPatternID().toString());
+
+		List<Message> msgList = messageDAO.findByPatternId(pattern
+				.getPatternID().toString());
 
 		List<MessageForm> msgFormList = new ArrayList<MessageForm>();
 		int msgsize = msgList.size();
 		if (msgsize > 0) {
-			for (int i = 0; i < msgsize; i++) {
+			for (int i = msgsize - 1; i >= 0; i--) {
 				MessageForm messageForm = new MessageForm();
 				Message message = msgList.get(i);
 				messageForm.setMessageContent(message.getContent());
@@ -150,12 +156,42 @@ public class MessageListServiceImpl implements MessageListService {
 				messageForm.setPatternName(message.getPatternId()
 						.getPatternName());
 				messageForm.setStatus(false);
+				messageForm.setMessageSubject(message.getSubject());
+				messageForm.setMessageSummary(message.getSummary());
 				msgFormList.add(messageForm);
 			}
 		}
 
 		return msgFormList;
 	}
+	
+	
+	public List<MessageForm> getAllMsg() {
+		// TODO Auto-generated method stub
+
+		List<Message> msgList = messageDAO.listMessage();
+
+		List<MessageForm> msgFormList = new ArrayList<MessageForm>();
+		int msgsize = msgList.size();
+		if (msgsize > 0) {
+			for (int i = msgsize - 1; i >= 0; i--) {
+				MessageForm messageForm = new MessageForm();
+				Message message = msgList.get(i);
+				messageForm.setMessageContent(message.getContent());
+				messageForm.setMessageDate(message.getMsgDate());
+				messageForm.setMessageId(message.getMsgID());
+				messageForm.setPatternName(message.getPatternId()
+						.getPatternName());
+				messageForm.setStatus(false);
+				messageForm.setMessageSubject(message.getSubject());
+				messageForm.setMessageSummary(message.getSummary());
+				msgFormList.add(messageForm);
+			}
+		}
+
+		return msgFormList;
+	}
+
 	public List<MessageForm> get5Msg(List<MessageForm> allMsgList,
 			int unreadedMsgListSize, int index) {
 		// TODO Auto-generated method stub
@@ -185,5 +221,20 @@ public class MessageListServiceImpl implements MessageListService {
 		// TODO Auto-generated method stub
 		userDAO.modifyUnreadMsg("0", uid);
 	}
+
+	public MessageForm getMessgeByID(int megId) {
+		MessageForm messageForm = new MessageForm();
+		Message message = messageDAO.findByMsgId(megId);
+		messageForm.setMessageContent(message.getContent());
+		messageForm.setMessageDate(message.getMsgDate());
+		messageForm.setMessageId(message.getMsgID());
+		messageForm.setPatternName(message.getPatternId().getPatternName());
+		messageForm.setStatus(false);
+		messageForm.setMessageSubject(message.getSubject());
+		messageForm.setMessageSummary(message.getSummary());
+		return messageForm;
+	}
+	
+	
 
 }

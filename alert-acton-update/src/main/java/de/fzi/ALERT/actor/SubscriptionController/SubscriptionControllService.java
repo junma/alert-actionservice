@@ -29,15 +29,15 @@ public interface SubscriptionControllService {
 	
 	public List<PatternForm> getSubscriptionFormList(String uid);
 	
-	public Preferences getSubscriptionTypeForPattern(List<PatternForm> patternFormList , String patternName);
+	public Preferences getSubscriptionTypeForPattern(List<PatternForm> patternFormList , String patternId);
 	
-	public void addSubscription(String patternName , String uid , String actionType);
+	public void addSubscription(String patternId , String uid , String actionType);
 	
-	public void deleteSubscription(String patternName , String uid , String actionType);
+	public void deleteSubscription(String patternId , String uid , String actionType);
 	
 	public void updateSubscription(String uid, PatternForm patternform);
 	
-	public PatternForm createNewPatternForm(String patternname, Preferences preferences);
+	public PatternForm createNewPatternForm(String patternId, Preferences preferences);
 	
 	public void updatePatternFormList(List<PatternForm> patternformList , PatternForm patternform);
 	

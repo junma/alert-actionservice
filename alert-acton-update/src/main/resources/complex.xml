@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<complexevents>
+	<event>
+		<name>Event1</name>
+		<description>Event1</description>
+		<url>https://www.google.de/</url>
+	</event>
+	<event>
+		<name>Event2</name>
+		<description>Event2</description>
+		<url>https://www.google.de/</url>
+	</event>
+	<event>
+		<name>Event2</name>
+		<description>Event2</description>
+		<url>https://www.google.de/</url>
+	</event>
+	
+</complexevents>

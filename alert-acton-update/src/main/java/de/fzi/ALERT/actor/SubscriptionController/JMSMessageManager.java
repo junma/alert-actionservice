@@ -103,6 +103,8 @@ public class JMSMessageManager {
 	public void saveMessage(Message message){
 		
 		// save the message into the Message table
+		if(message.getSubject().isEmpty()) message.setSubject("no Subject");
+		if(message.getSummary().isEmpty()) message.setSummary("no Summary");
 		messageDAO.create(message);
 		List<User> userList = subscriptionDAO.findUsersWithPattern(message.getPatternId());
 		for(User user : userList){

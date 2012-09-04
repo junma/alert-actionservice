@@ -61,7 +61,31 @@ public class Message implements Serializable {
     @NotNull
     @Column(name = "Content")
     private String content;
+	
+	@Basic(optional = false)
+    @Column(name = "Subject")
+    private String subject;
+	
+	@Basic(optional = false)
+    @Column(name = "Summary")
+    private String summary;
     
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	@Column(name = "MsgDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date msgDate;

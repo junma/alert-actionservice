@@ -20,11 +20,13 @@ import java.util.List;
 public class PatternForm {	
 	
 	private String patternName;
+	private String patternId;	
 	private boolean status;
 	private List<String> actionList;
 
-	public PatternForm(String name, boolean status , List<String> actionList){
+	public PatternForm(String name,String id, boolean status , List<String> actionList){
 		this.patternName = name;
+		this.patternId = id;
 		this.status = status;
 		this.actionList = actionList;
 	}
@@ -44,6 +46,13 @@ public class PatternForm {
 		this.status = status;
 	}
 
+	public String getPatternId() {
+		return patternId;
+	}
+
+	public void setPatternId(String patternId) {
+		this.patternId = patternId;
+	}
 
 
 	public List<String> getActionList() {

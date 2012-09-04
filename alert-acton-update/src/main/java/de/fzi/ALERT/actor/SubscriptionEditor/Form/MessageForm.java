@@ -30,6 +30,16 @@ public class MessageForm {
 	private boolean status;
 
 	private String messageSubject;
+	
+	private String messageSummary;
+
+	public String getMessageSummary() {
+		return messageSummary;
+	}
+
+	public void setMessageSummary(String messageSummary) {
+		this.messageSummary = messageSummary;
+	}
 
 	public int getMessageId() {
 		return messageId;
@@ -73,13 +83,7 @@ public class MessageForm {
 
 	public void setMessageContent(String messageContent) {
 		this.messageContent = messageContent;
-		int index = messageContent.indexOf("\n");
-		if (index < 1)
-			setMessageSubject("no subject");
-		else {
-			String subject = messageContent.substring(0, index);
-			setMessageSubject(subject);
-		}
+
 	}
 
 	public void setMessageSubject(String subject) {

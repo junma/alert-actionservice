@@ -43,7 +43,7 @@ import de.fzi.ALERT.actor.SubscriptionEditor.Service.UserLoginService;
  * to set the SessionAttribute to save the Username in loginform and save the
  * selected Pattern in sPattern
  */
-@SessionAttributes({ "loginform", "sPattern", "patternDescription",
+@SessionAttributes({ "loginform", "sPattern", "sPatternName", "patternDescription",
 		"patternList", "status", "preferences", "patternForm",
 		"messageAccount", "ifPatternModify", "patternNur", "uid" })
 public class ActionController {
@@ -77,6 +77,11 @@ public class ActionController {
 
 	@ModelAttribute("sPattern")
 	public String setSPattern() {
+		return "";
+	}
+	
+	@ModelAttribute("sPatternName")
+	public String setSPatternName() {
 		return "";
 	}
 
@@ -140,15 +145,16 @@ public class ActionController {
 
 	@RequestMapping(value = "/choosedPattern", method = RequestMethod.GET)
 	public String choosingPattern(ModelMap model,
-			@RequestParam("patternName") String patternName,
+			@RequestParam("patternId") String patternId,
 			@ModelAttribute("patternList") List<PatternForm> patternFormList) {
 
-		model.addAttribute("sPattern", patternName);
+		model.addAttribute("sPattern", patternId);
+		model.addAttribute("sPatternName", patternListService.findPatternById(patternId).getPatternName());
 		model.addAttribute("patternDescription",
-				patternListService.getDescription(patternName));
+				patternListService.getDescription(patternId));
 
 		Preferences prerefences = actionService.getSubscriptionTypeForPattern(
-				patternFormList, patternName);
+				patternFormList, patternId);
 		model.addAttribute("status",
 				actionService.preferencesToString(prerefences));
 		model.addAttribute("preferences", prerefences);

@@ -25,80 +25,80 @@ import de.fzi.ALERT.actor.Dao.MessageDAO;
 import de.fzi.ALERT.actor.Dao.PatternDAO;
 import de.fzi.ALERT.actor.Model.Pattern;
 
+public class PatternListServiceImpl implements PatternListService {
 
-
-public class PatternListServiceImpl implements PatternListService{
-	
 	private PatternDAO patternDAO;
-	
+
 	@Autowired
-	public void setpatternDAO(PatternDAO patternDAO){
+	public void setpatternDAO(PatternDAO patternDAO) {
 		this.patternDAO = patternDAO;
 	}
-	
+
 	public void createTestPattern() {
 	}
 
-	public List<String> getPatternList() {
-		
+	public List<String> getPatternNameList() {
+
 		List<String> patternNameList = new ArrayList<String>();
 		List<Pattern> patternList = patternDAO.listPattern();
 		int patternListSize = patternList.size();
-		for(int i=0;i<patternListSize;i++){
+		for (int i = 0; i < patternListSize; i++) {
 			patternNameList.add(patternList.get(i).getPatternName());
 		}
-		
-		
+
 		return patternNameList;
 	}
 
-	/*
-	public String getPatternDescription(String patternName) {
+	public List<Pattern> getPatternList() {
 		// TODO Auto-generated method stub
-		String patternDescription = "no pattern description";
-		if(patternName.equals("pattern1")){
-			patternDescription = "This is the first pattern";
-		}
-		if(patternName.equals("pattern2")){
-			patternDescription = "This is the second pattern";
-		}
-		return patternDescription;
+		List<Pattern> patternList = patternDAO.listPattern();
+
+		return patternList;
 	}
 
+	/*
+	 * public String getPatternDescription(String patternName) { // TODO
+	 * Auto-generated method stub String patternDescription =
+	 * "no pattern description"; if(patternName.equals("pattern1")){
+	 * patternDescription = "This is the first pattern"; }
+	 * if(patternName.equals("pattern2")){ patternDescription =
+	 * "This is the second pattern"; } return patternDescription; }
 	 */
-	
+
 	public Pattern findPatternByName(String patternName) {
-		// TODO Auto-generated method stub		
-	
+		// TODO Auto-generated method stub
+
 		return patternDAO.findByPatternName(patternName);
+	}
+
+	public Pattern findPatternById(String patternId) {
+		return patternDAO.findById(patternId);
 	}
 
 	public String checkIfModify(int num) {
 		// TODO Auto-generated method stub
-		boolean ifmod = patternDAO.checkIfModify();		
+		boolean ifmod = patternDAO.checkIfModify();
 		boolean addOrDel = false;
-		
+
 		List<Pattern> list = patternDAO.listPattern();
-		if(list.size() != num){
+		if (list.size() != num) {
 			addOrDel = true;
 		}
-		if(ifmod || addOrDel ){
+		if (ifmod || addOrDel) {
 			return "true";
-		}else{
+		} else {
 			return "false";
 		}
 	}
 
-	public String getDescription(String patternname) {
+	public String getDescription(String patternId) {
 		// TODO Auto-generated method stub
-		Pattern pattern = patternDAO.findByPatternName(patternname);
+		Pattern pattern = patternDAO.findById(patternId);
 		String description = pattern.getDescription();
-		if(description == null){
+		if (description == null) {
 			description = "No description!";
 		}
 		return description;
 	}
-	
-	
 
 }

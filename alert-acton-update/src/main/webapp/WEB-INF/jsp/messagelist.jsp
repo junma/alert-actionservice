@@ -44,8 +44,19 @@
 
 
 <style>
+html,body {
+	height: 100%;
+	
+}
+
+body{
+    
+	margin: 10px auto;
+	min-width: 215px;
+	min-height: 448px;
+	align: center;
+	}
 tr.table {
-	font: 11px/24px Verdana, Arial, Helvetica, sans-serif;
 	border-collapse: collapse;
 }
 
@@ -62,19 +73,9 @@ tr.yellow td {
 	border-bottom: 1px solid #FB7A31;
 	background: #FFC;
 }
-
-body {
-	margin: 10px auto;
-	width: 220px;
-	height: 540px;
-	font-size: 20px;
-	font-family: Arial, Helvetica, sans-serif;
-	bgcolor: #C0C0C0;
-	align: center;
-}
 </style>
 <script type="text/javascript">
-	function initTableCss() {
+		function initTableCss() {
 		var tab = document.getElementById("msgtable");
 		for ( var i = 0; i < tab.rows.length; i++) {
 			tab.rows[i].className = (i % 3 == 0) ? "yellow" : "";
@@ -82,10 +83,9 @@ body {
 		
 	}
 	window.onload = initTableCss;
-	
 	function openWin(id)
 	{
-		myWindow=window.open('showMsg.html?msgId='+id,'msgList','width=600,height=1000');
+		myWindow=window.open('showMsg.html?msgId='+id,'msgList','width=600,height=600,scrollbars=yes');
 		myWindow.focus();
 	}
 		
@@ -98,50 +98,49 @@ body {
 
 </head>
 <body>
-	<table id=all style="TABLE-LAYOUT: fixed;" width=100% height=100%>
-		<tr>
-			<td><div style="position: absolute; left: 10px; top: 2px;">
+
+	<table id=all width=100% height=100% valign="top">
+	
+		<tr height=5% valign="top">
+			<td width=100% >
 					<iframe name="unread" src="getunreadmsg.html" width=200p
 						height=40px scrolling="no" frameborder=0> </iframe>
-				</div></td>
+				</td>
 		</tr>
-		<tr>
+		<tr height=80% valign="top">
 			<td>
-				<DIV
-					style="position: absolute; left: 10px; top: 30px; padding: 4px; width: 250px; height: 500px; overflow: buttom;">
+				<table id="msgtable" width=100% height=100% class=tr>
 
-					<table id="msgtable" bgcolor="#FFFFFF" class=tr>
-
-						<core:set var="pageStart" value="<%=curIndex%>" scope="page" />
+				<core:set var="pageStart" value="<%=curIndex%>" scope="page" />
 
 						<core:if test="${!empty newMessageList}">
 
 							<core:forEach items="${newMessageList}" var="messageForm">
 								<core:if test="${messageForm.status==true}">
 
-									<tr
+									<tr height=5% 
 										onclick="openWin(${messageForm.messageId})">
-										<td><i>${messageForm.messageDate}</i></td>
+										<td><i><strong>Date: </strong>${messageForm.messageDate}</i></td>
 									</tr>
-									<tr
+									<tr height=5% 
 										onclick="openWin(${messageForm.messageId})">
-										<td><i>${messageForm.patternName}</i></td>
+										<td><i><strong>Pattern Name:</strong>${messageForm.patternName}</i></td>
 									</tr>
-									<tr
+									<tr height=5% 
 										onclick="openWin(${messageForm.messageId})">
-										<td><i><strong>Content: </strong>${messageForm.messageSubject}</i></td>
+										<td><i><strong>Content:</strong>${messageForm.messageSubject}</i></td>
 									</tr>
 								</core:if>
 								<core:if test="${messageForm.status==false}">
-									<tr
+									<tr height=5% 
 										onclick="openWin(${messageForm.messageId})">
-										<td>${messageForm.messageDate}</td>
+										<td><strong>Date:</strong>${messageForm.messageDate}</td>
 									</tr>
-									<tr
+									<tr height=5% 
 										onclick="openWin(${messageForm.messageId})">
-										<td>${messageForm.patternName}</td>
+										<td><strong>Pattern Name:</strong>${messageForm.patternName}</td>
 									</tr>
-									<tr
+									<tr height=5% 
 										onclick="openWin(${messageForm.messageId})">
 										<td><strong>Content: </strong>${messageForm.messageSubject}</td>
 									</tr>
@@ -149,13 +148,12 @@ body {
 							</core:forEach>
 						</core:if>
 					</table>
-				</DIV>
-			</td>
+				</td>
 		</tr>
-		<tr>
+		<tr  height=5% valign="top">
 			<td>
-				<div style="position: absolute; left: 10px; bottom: 2px;">
-					<table height=10px>
+				
+					<table height=100%>
 						<tr>
 
 							<td><a <%if (curIndex > 0) {%>
@@ -179,12 +177,7 @@ body {
 
 
 
-						<%-- <tr>
-			<td > ${messageNum}</td>
-		</tr>  --%>
-					</table>
-				</div>
-			</td>
+						</td>
 		</tr>
 
 	</table>

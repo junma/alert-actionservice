@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<identitys>
+	<identity>
+		<name>max muster</name>
+		<profile>
+			Student
+			<url>http://google.de</url>
+		</profile>
+		<imgurl></imgurl>
+	</identity>
+	<identity>
+		<name>muster</name>
+		<profile>
+			Prof. Dr.
+			<url>http://google.de</url>
+		</profile>
+		<imgurl>/imgad.png</imgurl>
+	</identity>
+	<identity>
+		<name>Anna</name>
+		<profile>
+			hiwi
+			<url>http://google.de</url>
+		</profile>
+		<imgurl>/logo.png</imgurl>
+	</identity>
+</identitys>

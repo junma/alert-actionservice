@@ -25,11 +25,15 @@ public interface PatternListService {
 	//TODO: change the datatype of the list to Pattern
 	public void createTestPattern();
 		
-	public List<String> getPatternList();
+	public List<String> getPatternNameList();
+	
+	public List<Pattern> getPatternList();
 	
 //	public String getPatternDescription(String patternName);
 	
 	public Pattern findPatternByName(String patternName); 
+	
+	public Pattern findPatternById(String patternId);
 	
 	public String checkIfModify(int num);
 	

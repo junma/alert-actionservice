@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+	<item>
+		<url>https://bugs.kde.org/show_bug.cgi?id=184100</url>
+		<similarity>0.9523</similarity>
+		<shortContent>Version: (using 4.2.00 (KDE 4.2.0), Arch Linux)
+			Compiler: gcc
+			OS: Linux (i686) release 2.6.28-ARCH
+			I find t
+		</shortContent>
+		<subject>Configuration GUI is confusing</subject>
+	</item>
+	<item>
+		<url>https://bugs.kde.org/show_bug.cgi?id=234940</url>
+		<similarity>0.3591</similarity>
+		<shortContent>Version: 1.0 (using 4.4.2 (KDE 4.4.2), Kubuntu packages)
+			Compiler: cc
+			OS: Linux (x86_64) release 2.6.32-19-gener
+		</shortContent>
+		<subject>Power management settings ambiguous</subject>
+	</item>
+	<item>
+		<url>https://bugs.kde.org/show_bug.cgi?id=217351</url>
+		<similarity>0.3186</similarity>
+		<shortContent>Version: (using KDE 4.3.4)
+			OS: Linux
+			Installed from:
+			Unlisted Binary Package
+			Layout of Actions tab in Edit Profil
+		</shortContent>
+		<subject>[mockup] Powermanagement - &amp;gt; Edit Profiles module has
+			too chaotic layout
+		</subject>
+	</item>
+	<item>
+		<url>https://bugs.kde.org/show_bug.cgi?id=222326</url>
+		<similarity>0.2531</similarity>
+		<shortContent>Version: (using Devel)
+			Compiler: g++ 4.3
+			OS: Linux
+			Installed from: Compiled sources
+			there is an unnec
+		</shortContent>
+		<subject>horizontal scroll bar enabled for power manager</subject>
+	</item>
+
+</items>

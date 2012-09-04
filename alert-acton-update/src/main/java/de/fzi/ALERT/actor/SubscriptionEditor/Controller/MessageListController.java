@@ -15,30 +15,22 @@
  ******************************************************************************/
 package de.fzi.ALERT.actor.SubscriptionEditor.Controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import de.fzi.ALERT.actor.ActionActuator.MessageListService;
-import de.fzi.ALERT.actor.Model.Message;
-import de.fzi.ALERT.actor.Model.Pattern;
 import de.fzi.ALERT.actor.Model.User;
-import de.fzi.ALERT.actor.SubscriptionController.SubscriptionControllService;
 import de.fzi.ALERT.actor.SubscriptionEditor.Form.Loginform;
 import de.fzi.ALERT.actor.SubscriptionEditor.Form.MessageForm;
-import de.fzi.ALERT.actor.SubscriptionEditor.Form.PatternForm;
-import de.fzi.ALERT.actor.SubscriptionEditor.Form.RssContent;
-import de.fzi.ALERT.actor.SubscriptionEditor.Service.PatternListService;
 import de.fzi.ALERT.actor.SubscriptionEditor.Service.UserLoginService;
 
 @Controller
@@ -48,12 +40,6 @@ import de.fzi.ALERT.actor.SubscriptionEditor.Service.UserLoginService;
 @SessionAttributes({ "loginform", "msgList", "messageNum", "unReadMsgNum",
 		"unReadMsgList", "uid" })
 public class MessageListController {
-	private PatternListService patternListService;
-
-	@Autowired
-	public void setPatternListService(PatternListService patternListService) {
-		this.patternListService = patternListService;
-	}
 
 	private MessageListService messageListService;
 
@@ -151,46 +137,6 @@ public class MessageListController {
 
 	}
 
-	@RequestMapping(value = "/rssFeed", method = RequestMethod.GET)
-	public ModelAndView getFeedInRss(ModelMap model,
-			@RequestParam("patternName") String patternName) {
-		Pattern rssPattern = patternListService.findPatternByName(patternName);
-		List<MessageForm> rssMsg = messageListService
-				.getAllMsgForPattern(rssPattern);
-
-		List<RssContent> items = new ArrayList<RssContent>();
-
-		if (rssMsg.isEmpty() == false) {
-			if (rssMsg.size() > 10) {
-				for (int i = rssMsg.size()-1; i >rssMsg.size()-11; i--) {
-					RssContent content = new RssContent();
-					content.setTitle(rssMsg.get(i).getMessageSubject());
-					content.setUrl("#");
-					content.setSummary(rssMsg.get(i).getMessageContent());
-					content.setCreatedDate(rssMsg.get(i).getMessageDate());
-					items.add(content);
-				}
-			} else {
-				for (int i = rssMsg.size()-1; i > -1; i--) {
-					RssContent content = new RssContent();
-					content.setTitle(rssMsg.get(i).getMessageSubject());
-					content.setUrl("#");
-					content.setSummary(rssMsg.get(i).getMessageContent());
-					content.setCreatedDate(rssMsg.get(i).getMessageDate());
-					items.add(content);
-				}
-			}
-		}
-		;
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("rssViewer");
-		mav.addObject("feedContent", items);
-		mav.addObject("feed", patternName);
-
-		return mav;
-
-	}
 	
 	@RequestMapping(value = "/showMsg.html", method = RequestMethod.GET)
 	public ModelAndView showMsg(ModelMap model,
@@ -212,5 +158,11 @@ public class MessageListController {
 		mav.addObject("message",msg);
 
 		return mav;
+	}
+	
+	@RequestMapping(value = "/scrolling_msg.html", method = RequestMethod.GET)
+     public String scrollmsg() {
+		
+		return "scrolling";
 	}
 }

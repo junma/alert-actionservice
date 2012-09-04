@@ -38,9 +38,12 @@ public interface MessageListService {
 	
 	public List<MessageForm> getAllMsgForUser(User user);
 	public List<MessageForm> getAllMsgForPattern(Pattern pattern);
+	public List<MessageForm> getAllMsg() ;
 	
 	public List<MessageForm> get5Msg(List<MessageForm> allMsgList, int unreadedMsgListSize, int index);
 	
 	public void leerUnreadMsgList(String uid);
+	
+	public MessageForm getMessgeByID(int msgID);
 	
 }

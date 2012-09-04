@@ -121,7 +121,8 @@ public class JMSNotificationParser {
 					content = content + element.tagName() + " : "
 							+ element.ownText() + "\n";
 				}
-
+				message.setSubject("Identity Recommendation");
+				message.setSummary("default summary");
 				message.setContent(content);
 				message.setMsgDate(new Date());
 				message.setMsgID(1);
@@ -158,6 +159,8 @@ public class JMSNotificationParser {
 					content = content + element.tagName() + " : "
 							+ element.ownText() + "\n";
 				}
+				message.setSubject("Issue Recommendation");
+				message.setSummary("default summary");
 				message.setContent(content);
 				message.setMsgDate(new Date());
 				message.setMsgID(1);
@@ -193,6 +196,8 @@ public class JMSNotificationParser {
 					content = content + element.tagName() + " : "
 							+ element.ownText() + "\n";
 				}
+				message.setSubject("Identity Verification");
+				message.setSummary("default summary");
 				message.setContent(content);
 				message.setMsgDate(new Date());
 				message.setMsgID(1);
@@ -229,7 +234,8 @@ public class JMSNotificationParser {
 					String similarity = item.getElementsByTag("similarity").text();
 					content = content+ subject + "\n" +issueurl + "\n" +similarity + "\n";
 				}
-				
+				message.setSubject("Similar Issues");
+				message.setSummary("default summary");
 				message.setContent(content);
 				message.setMsgDate(new Date());
 				message.setMsgID(1);

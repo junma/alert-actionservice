@@ -92,6 +92,8 @@ public class MessageDAO extends AbstractDAO<Message> {
 		}
 
 	}
+	
+
 
 	@SuppressWarnings("unchecked")
 	public Pattern findPatternByMsgId(int msgId) {

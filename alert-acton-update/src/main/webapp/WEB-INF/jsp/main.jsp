@@ -52,30 +52,29 @@ body {
 	<table align="center" width=100% height=100%>
 
 		<tr height=100%>
-			<td width=250px height=100% valign="top">
-				<table id=user width=250px height=100%>
-					<tr height=20px>
-						<td valign="top"><a><img src="${imgad2}" alt="subscribed"
+			<td width=21% height=100% valign="top">
+				<table id=user width=100% height=100%>
+					<tr height=15% valign="top">
+						<td><a><img src="${imgad2}" alt="subscribed"
 								style="width: 200px; height: 82px;" /> </a></td>
 					</tr>
-					<tr height=40px>
-						<td valign="top">Hallo, <core:out
-								value="${loginform.username}" /><br> <a>Your log in
-								time: <%=str_date1%>.
-						</a><br> 
+					<tr height=10% valign="top">
+						<td>Hallo, <core:out value="${loginform.username}" /><br>
+							<a>Your log in time: <%=str_date1%>.
+						</a><br> <input type="button" value="LOGOUT"
+							onclick="location.href='logout.html'" />
 						</td>
 					</tr>
-					<tr>
-						<td><input type="button" value="LOGOUT"
-							onclick="location.href='logout.html'" /></td>
-					</tr>
-					<tr height=20px>
+					<!-- <tr height=15%><td>
+						<iframe id="scrollmsgfrm" src="scrolling_msg.html" frameborder="0" scrolling="no" style="border: #000000 1px solid;"></iframe>
+					</td></tr> -->
+					<tr height=5% valign="top">
 						<td bgcolor="#CBE2EF"><strong><font color="#FFFFFF">Message
 									Box</font> </strong></td>
 					</tr>
-					<tr height=540px>
-						<td width=250px bgcolor="#FFFFDD"><iframe id="msglistfrm"
-								scrolling="no" src="showmessagelist.html"
+					<tr height=70% valign="top">
+						<td width=100% height=100% bgcolor="#FFFFDD"><iframe
+								id="msglistfrm" scrolling="no" src="showmessagelist.html"
 								style="width: 100%; height: 100%;" frameborder=0>
 								<p>Your browser does not support iframes.</p>
 							</iframe></td>
@@ -84,7 +83,7 @@ body {
 			</td>
 
 
-			<td width=80% valign="top" height=100%><iframe scrolling="no"
+			<td width=79% valign="top" height=100%><iframe scrolling="no"
 					src="listPattern.html" style="width: 100%; height: 100%;"
 					frameborder=0>
 					<p>Your browser does not support iframes.</p>

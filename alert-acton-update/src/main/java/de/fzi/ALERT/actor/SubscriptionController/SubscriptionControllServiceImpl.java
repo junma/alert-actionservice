@@ -99,8 +99,9 @@ public class SubscriptionControllServiceImpl implements
 		if (patternListSize > 0) {
 			for (int i = 0; i < patternListSize; i++) {
 
-				String patternName = patternList.get(i).getPatternName();
-				Pattern pattern = patternDAO.findByPatternName(patternName);
+				Pattern pattern = patternList.get(i);
+				String patternId = pattern.getPatternID();
+				String patternName = pattern.getPatternName();
 				User user = userDAO.findUserByUserid(uid).get(0);
 				boolean status;
 				List<String> actionTypeList = new ArrayList<String>();
@@ -118,8 +119,8 @@ public class SubscriptionControllServiceImpl implements
 					status = false;
 				}
 
-				patternFormList.add(new PatternForm(patternName, status,
-						actionTypeList));
+				patternFormList.add(new PatternForm(patternName, patternId,
+						status, actionTypeList));
 			}
 		}
 
@@ -132,13 +133,13 @@ public class SubscriptionControllServiceImpl implements
 		return subscriptionDAO.listAllByUser(user);
 	}
 
-	public void addSubscription(String patternName, String uid,
+	public void addSubscription(String patternId, String uid,
 			String actionTypeName) {
 		// TODO Auto-generated method stub
 
 		Subscription action = new Subscription();
 
-		Pattern pattern = patternDAO.findByPatternName(patternName);
+		Pattern pattern = patternDAO.findById(patternId);
 		User user = userDAO.findUserByUserid(uid).get(0);
 		ActionType actionType = actiontypeDAO
 				.findActionTypeByName(actionTypeName);
@@ -153,10 +154,10 @@ public class SubscriptionControllServiceImpl implements
 
 	}
 
-	public void deleteSubscription(String patternName, String uid,
+	public void deleteSubscription(String patternId, String uid,
 			String actionType) {
 		// TODO Auto-generated method stub
-		Pattern pattern = patternDAO.findByPatternName(patternName);
+		Pattern pattern = patternDAO.findById(patternId);
 		User user = userDAO.findUserByUserid(uid).get(0);
 		Subscription action = subscriptionDAO.findUnitSubscription(pattern,
 				user, actionType);
@@ -165,9 +166,9 @@ public class SubscriptionControllServiceImpl implements
 
 	public void updateSubscription(String uid, PatternForm patternform) {
 		// TODO Auto-generated method stub
-		String patternName = patternform.getPatternName();
+		String patternId = patternform.getPatternId();
 		User user = userDAO.findUserByUserid(uid).get(0);
-		Pattern pattern = patternDAO.findByPatternName(patternName);
+		Pattern pattern = patternDAO.findById(patternId);
 
 		List<String> actionTypeList = patternform.getActionList();
 
@@ -178,18 +179,16 @@ public class SubscriptionControllServiceImpl implements
 		boolean WebMessageSubed = false;
 		if (patternform.isStatus()) {
 			int actionTypeListSize = actionTypeList.size();
-			
+
 			for (int i = 0; i < actionTypeListSize; i++) {
 				if (actionTypeList.get(i).equals("WebMessage")) {
 					WebMessageSubed = true;
 				}
 			}
 		}
-		
 
 		if (!actionList.isEmpty()) {
-			
-			
+
 			for (int i = 0; i < actionList.size(); i++) {
 
 				if (actionList.get(i).getAction().getActionName()
@@ -201,7 +200,7 @@ public class SubscriptionControllServiceImpl implements
 						&& !WebMessageSubed) {
 					subscriptionDAO.deleteSubscription(actionList.get(i));
 				} else {
-					
+
 					subscriptionDAO.deleteSubscription(actionList.get(i));
 					actionList.remove(i);
 					i--;
@@ -213,13 +212,12 @@ public class SubscriptionControllServiceImpl implements
 			int actionTypeListSize = actionTypeList.size();
 			for (int i = 0; i < actionTypeListSize; i++) {
 				if (actionTypeList.get(i).equals("WebMessage")) {
-						if (actionList.size()==0){
-							this.addSubscription(patternName, uid,
-									"WebMessage");
-						}					
+					if (actionList.size() == 0) {
+						this.addSubscription(patternId, uid, "WebMessage");
+					}
 
 				} else {
-					this.addSubscription(patternName, uid,
+					this.addSubscription(patternId, uid,
 							actionTypeList.get(i));
 				}
 			}
@@ -231,21 +229,20 @@ public class SubscriptionControllServiceImpl implements
 			PatternForm patternform) {
 		// TODO Auto-generated method stub
 		int patternformListSize = patternformList.size();
-		
+
 		if (patternformListSize >= 0) {
 			for (int i = 0; i < patternformListSize; i++) {
-				if (patternformList.get(i).getPatternName()
-						.equals(patternform.getPatternName())) {
+				if (patternformList.get(i).getPatternId()
+						.equals(patternform.getPatternId())) {
 					patternformList.get(i).setStatus(patternform.isStatus());
 					patternformList.get(i).setActionList(
 							patternform.getActionList());
-					
+
 				}
 
 			}
 		}
-		
-		
+
 	}
 
 	public List<String> changeToPatternForm(Preferences preferences) {
@@ -256,13 +253,15 @@ public class SubscriptionControllServiceImpl implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public PatternForm createNewPatternForm(String patternname,
+	public PatternForm createNewPatternForm(String patternId,
 			Preferences preferences) {
 		// TODO Auto-generated method stub
 
+		Pattern pattern = patternDAO.findById(patternId);
 		PatternForm patternform = new PatternForm();
 
-		patternform.setPatternName(patternname);
+		patternform.setPatternName(pattern.getPatternName());
+		patternform.setPatternId(patternId);
 
 		if (preferences.getsubRadio().equals("subscription")) {
 			patternform.setStatus(true);
@@ -283,14 +282,14 @@ public class SubscriptionControllServiceImpl implements
 	}
 
 	public Preferences getSubscriptionTypeForPattern(
-			List<PatternForm> patternFormList, String patternName) {
+			List<PatternForm> patternFormList, String patternId) {
 		// TODO Auto-generated method stub
 		int patternFormListSize = patternFormList.size();
 		List<String> actionTypeList = new ArrayList<String>();
 		Preferences preferences = new Preferences();
 		if (patternFormListSize >= 0) {
 			for (int i = 0; i < patternFormListSize; i++) {
-				if (patternFormList.get(i).getPatternName().equals(patternName)) {
+				if (patternFormList.get(i).getPatternId().equals(patternId)) {
 					PatternForm patternform = patternFormList.get(i);
 					if (patternform.isStatus()) {
 						preferences.setsubRadio("subscription");

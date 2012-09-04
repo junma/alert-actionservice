@@ -159,19 +159,19 @@ body {
 								<core:if test="${patternForm.status=='unsubscribed'}">
 									<td></td>
 								</core:if>
-								<core:if test="${patternForm.patternName!=sPattern}">
+								<core:if test="${patternForm.patternId!=sPattern}">
 									<td onmouseover="mouseover(this.id)"
-										id="${patternForm.patternName}" onmouseout="mouseout(this.id)"
+										id="${patternForm.patternId}" onmouseout="mouseout(this.id)"
 										onclick="click(this.id)"><a
-										href="choosedPattern?patternName=${patternForm.patternName}">${patternForm.patternName}</a>
+										href="choosedPattern?patternId=${patternForm.patternId}">${patternForm.patternName}</a>
 
 									</td>
 								</core:if>
-								<core:if test="${patternForm.patternName==sPattern}">
+								<core:if test="${patternForm.patternId==sPattern}">
 									<td bgcolor="#00FFCC" onmouseover="mouseover(this.id)"
-										id="${patternForm.patternName}"
+										id="${patternForm.patternId}"
 										onmouseout="mouseout2(this.id)" onclick="click(this.id)"><a
-										href="choosedPattern?patternName=${patternForm.patternName}">${patternForm.patternName}
+										href="choosedPattern?patternId=${patternForm.patternId}">${patternForm.patternName}
 									</a></td>
 								</core:if>
 							</tr>
@@ -204,19 +204,19 @@ body {
 									<td><a><img src="${imgad}" alt="subscribed"
 											style="width: 30px; height: 26px;" /> </a></td>
 
-									<core:if test="${patternForm.patternName!=sPattern}">
+									<core:if test="${patternForm.patternId!=sPattern}">
 										<td onmouseover="mouseover(this.id)"
-											id="${patternForm.patternName}"
+											id="${patternForm.patternId}"
 											onmouseout="mouseout(this.id)" onclick="click(this.id)"><a
-											href="choosedPattern?patternName=${patternForm.patternName}">${patternForm.patternName}</a>
+											href="choosedPattern?patternId=${patternForm.patternId}">${patternForm.patternName}</a>
 
 										</td>
 									</core:if>
-									<core:if test="${patternForm.patternName==sPattern}">
+									<core:if test="${patternForm.patternId==sPattern}">
 										<td bgcolor="#00FFCC" onmouseover="mouseover(this.id)"
-											id="${patternForm.patternName}"
+											id="${patternForm.patternId}"
 											onmouseout="mouseout2(this.id)" onclick="click(this.id)"><a
-											href="choosedPattern?patternName=${patternForm.patternName}">${patternForm.patternName}
+											href="choosedPattern?patternId=${patternForm.patternId}">${patternForm.patternName}
 										</a></td>
 									</core:if>
 								</core:if>
@@ -231,19 +231,19 @@ body {
 								<core:if test="${patternForm.status=='unsubscribed'}">
 									<td></td>
 
-									<core:if test="${patternForm.patternName!=sPattern}">
+									<core:if test="${patternForm.patternId!=sPattern}">
 										<td onmouseover="mouseover(this.id)"
-											id="${patternForm.patternName}"
+											id="${patternForm.patternId}"
 											onmouseout="mouseout(this.id)" onclick="click(this.id)"><a
-											href="choosedPattern?patternName=${patternForm.patternName}">${patternForm.patternName}</a>
+											href="choosedPattern?patternId=${patternForm.patternId}">${patternForm.patternName}</a>
 
 										</td>
 									</core:if>
-									<core:if test="${patternForm.patternName==sPattern}">
+									<core:if test="${patternForm.patternId==sPattern}">
 										<td bgcolor="#00FFCC" onmouseover="mouseover(this.id)"
-											id="${patternForm.patternName}"
+											id="${patternForm.patternId}"
 											onmouseout="mouseout2(this.id)" onclick="click(this.id)"><a
-											href="choosedPattern?patternName=${patternForm.patternName}">${patternForm.patternName}
+											href="choosedPattern?patternId=${patternForm.patternId}">${patternForm.patternName}
 										</a></td>
 									</core:if>
 								</core:if>
@@ -264,11 +264,11 @@ body {
 				<table id=ptdetails width="100%" height=100% bgcolor="#F3F6F9">
 					<tr bgcolor="#5EAA54" height=30px>
 						<td colspan="2"><font color="#FFFFFF"><strong>Pattern
-									Description: ${sPattern}</strong> </font></td>
+									Description: ${sPatternName}</strong> </font></td>
 					</tr>
 					<tr bgcolor="#E8F5FE" valign="top">
 
-						<td>${patternDescription}<core:if test="${empty sPattern}">Please select a pattern first!</core:if>
+						<td>${patternDescription}<core:if test="${empty sPatternName}">Please select a pattern first!</core:if>
 							<!-- <table>
 							<tr>
 								<td>XML Tree</td>
@@ -325,7 +325,7 @@ body {
 
 								<table id=actionfm width="100%" height=20%>
 									<tr height=10px>
-										<td><b>Please select an Action for ${sPattern}</b></td>
+										<td><b>Please select an Action for ${sPatternName}</b></td>
 									</tr>
 									<tr>
 										<td>Action:</td>
@@ -357,7 +357,7 @@ body {
 											 <input type="button" value="ok" onclick="insMsg()" />
 									</tr>
 
-									<core:if test="${empty sPattern}">
+									<core:if test="${empty sPatternName}">
 										<tr>
 											<td><img src="unrssimg.jpg" alt="subscribed" /></td>
 										</tr>
@@ -367,9 +367,9 @@ body {
 											<td>Please select a pattern first!</td>
 										</tr>
 									</core:if>
-									<core:if test="${!empty sPattern}">
+									<core:if test="${!empty sPatternName}">
 										<tr>
-											<td><a href="rssFeed?patternName=${sPattern}"
+											<td><a href="rssFeed?patternId=${sPattern}"
 												target="_blank"><img src="rssimg.jpg" alt="subscribed" />
 											</a></td>
 										</tr>
